@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { loginUser } from '../redux/auth';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -60,6 +61,11 @@ class Login extends React.Component {
   onLoginSubmit(event) {
     const { message } = this.props;
     event.preventDefault();
+    const login = {
+      email: event.target.email.value,
+      password: event.target.password.value
+    };
+    this.props.findUser(login.email, login.password)
     console.log(`${message} isn't implemented yet`);
   }
 }
@@ -67,6 +73,10 @@ class Login extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Log in' });
-const mapDispatch = null;
+const mapDispatch = dispatch => ({
+  findUser: (email, password) => {
+    dispatch(loginUser(email, password))
+  }
+});
 
 export default connect(mapState, mapDispatch)(Login);
